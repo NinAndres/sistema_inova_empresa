@@ -2,7 +2,7 @@ package com.faculdade.sistema_inova_empresa.entities;
 
 import java.util.List;
 
-import com.faculdade.sistema_inova_empresa.entities.enums.RoleStatus;
+import com.faculdade.sistema_inova_empresa.entities.enums.ImpactoStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -12,7 +12,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -20,31 +19,32 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "tb_usuarios")
-public class Usuario {
+@Table(name = "tb_ideias")
+public class Ideias {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String nome;
-  private String email;
-  private String senha;
 
   @Enumerated(EnumType.STRING)
-  private RoleStatus role;
-
-  @OneToMany(mappedBy = "criador")
-  @JsonIgnore
-  private List<Eventos> eventos;
+  private ImpactoStatus impacto;
+  private Float custo;
+  private String descricao;
 
   @ManyToOne
-  @JoinColumn(name = "ideia_id")
-  private Ideias ideia;
+  @JoinColumn(name = "admin_id")
+  private Usuario criador;
 
-  @ManyToMany(mappedBy = "jurados")
+  @OneToMany(mappedBy = "ideia")
   @JsonIgnore
-  private List<Eventos> eventosJurados;
+  private List<Usuario> colaboradores;
 
-  @OneToMany(mappedBy = "jurado")
+  @ManyToOne
+  @JoinColumn(name = "evento_id")
+  private Eventos evento;
+
+  @OneToMany(mappedBy = "ideia")
   @JsonIgnore
-  private List<Avaliacao> avaliacoesFeitas;
+  private List<Avaliacao> avaliacoes;
 }
