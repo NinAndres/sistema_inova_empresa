@@ -1,5 +1,6 @@
 package com.faculdade.sistema_inova_empresa.services;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -61,11 +62,18 @@ public class IdeiasService {
 
     Collections.shuffle(ideias);
 
-    for (int i = 0; i < ideias.size(); i++) {
-      Usuario jurado = jurados.get(i % jurados.size());
-      ideias.get(i).getEvento().getJurados().add(jurado);
-      ideiasRepository.save(ideias.get(i));
-
+    for (Ideias ideia : ideias) {
+      if (ideia.getEvento() == null) {
+        ideia.setEvento(evento);
+      }
+      Usuario jurado = jurados.get(ideias.indexOf(ideia) % jurados.size());
+      if (ideia.getEvento().getJurados() == null) {
+        ideia.getEvento().setJurados(new ArrayList<>());
+      }
+      if (!ideia.getEvento().getJurados().contains(jurado)) {
+        ideia.getEvento().getJurados().add(jurado);
+      }
+      ideiasRepository.save(ideia);
     }
   }
 }
