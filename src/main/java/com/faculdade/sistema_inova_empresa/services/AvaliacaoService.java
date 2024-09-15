@@ -47,7 +47,6 @@ public class AvaliacaoService {
     avaliacao.setNota(nota);
 
     return avaliacaoRepository.save(avaliacao);
-
   }
 
   public Double mediaDasAvalicoes(Long ideiaId) {
