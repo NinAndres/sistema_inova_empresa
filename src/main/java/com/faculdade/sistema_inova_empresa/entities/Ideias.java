@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -30,6 +31,8 @@ public class Ideias {
   @Enumerated(EnumType.STRING)
   private ImpactoStatus impacto;
   private Float custo;
+
+  @Size(max = 1000, message = "A descricao passou de 1000 caracteres")
   private String descricao;
 
   @ManyToOne
